@@ -30,10 +30,11 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   Aşağıdaki skor1 ve skor2 kodlarını inceleyiniz ve aşağıdaki soruları altına not alarak cevaplayın
   
   1. skor1 ve skor2 arasındaki fark nedir?
-  
+  skor1 fonksiyon oluşturup yerel değişken ile fonksiyonun içerisinde skoru 1E eşitler. skor2 ise fonksiyonun dışarısında bir değişken oluşturmuş ve ondan sonra o skor değişkeninin değerini 1 arttırır.
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
-  
+  Fonksiyon içinde tanımlanan ve kendi içerisinde çağırılan fonksiyonlara deniyor.
   3. Hangi durumda skor1 tercih edilebilir? Hangi durumda skor2 daha mantıklıdır?
+  Eğer skor değişkeninin varsayılan değeri ile işlem yapılacak ise 1, skor değişkeninin varsayılan değerinde değişiklik yapılacaksa skor1 fonksiyonu kullanılması mantıklı olacaktır.
 */
 
 // skor1 kodları
@@ -65,7 +66,8 @@ Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyon
 */
 
 function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+    let rastgele = (Math.random() * (25 - 10 + 1) + 10);
+    return Math.ceil(rastgele);
 }
 
 
@@ -86,10 +88,20 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
-}
+function macSonucu(callback, ceyrekSayi){
+  let sonSkor = {
+    "EvSahibi": callback(),
+    "KonukTakim": callback()
+  };
 
+  for(let i = 1; i <= ceyrekSayi; i++){
+    sonSkor["EvSahibi"] += callback();
+    sonSkor["KonukTakim"] += callback();
+  }
+
+  return sonSkor;
+}
+console.log(macSonucu(takimSkoru, 4));
 
 
 
@@ -109,9 +121,13 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function periyotSkoru(callback) {
+  let nesne = {
+    "EvSahibi": takimSkoru(),
+    "KonukTakim": takimSkoru()
+  };
 
+  return nesne;
 }
 
 
@@ -144,12 +160,36 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
   "Maç Sonucu: Ev Sahibi 71 - Konuk Takım 67"  
 ]
 ] */
-// NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
+// NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tamamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(periyotSkor, takimSkor, ceyerkSayisi) {
+  let evSahibiSkor = 0, konukTakimSkor = 0, macStringArray = [];
+  
+  for(let i = 1; i <= ceyerkSayisi; i++) {
+    let periyot = {
+      ev: takimSkor(),
+      konuk: takimSkor()
+    };
+    evSahibiSkor += periyot.ev;
+    konukTakimSkor += periyot.konuk;
+    macStringArray.push(`${i}. Periyot: Ev Sahibi ${periyot.ev} - Konuk Takım ${periyot.konuk},`); 
+  } 
+  let a = 1;
+  while(evSahibiSkor == konukTakimSkor){
+    let uzatmaEv = 0, uzatmaKonuk = 0;
+    uzatmaEv = takimSkor();
+    uzatmaKonuk = takimSkor();
+    macStringArray.push(`${a}. Uzatma: Ev Sahibi ${uzatmaEv} - Konuk Takım ${uzatmaKonuk}`);
+    evSahibiSkor += uzatmaEv;
+    konukTakimSkor += uzatmaKonuk; 
+    a++;
+  }
+
+  macStringArray.push(`Maç Sonucu: Ev Sahibi ${evSahibiSkor} - Konuk Takım ${konukTakimSkor}`);
+
+  return macStringArray;
 }
-
+console.log(skorTabelasi(periyotSkoru, takimSkoru, 4));
 
 
 
