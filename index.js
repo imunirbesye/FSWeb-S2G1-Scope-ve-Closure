@@ -18,7 +18,7 @@
 function ilkiniDon(stringArray, callback) {
   return callback(stringArray[0])
 }
-console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin+metin}));
+//console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin+metin}));
 
 // Başlangıç Challenge'ı Sonu
 
@@ -101,7 +101,7 @@ function macSonucu(callback, ceyrekSayi){
 
   return sonSkor;
 }
-console.log(macSonucu(takimSkoru, 4));
+//console.log(macSonucu(takimSkoru, 4));
 
 
 
@@ -189,7 +189,7 @@ function skorTabelasi(periyotSkor, takimSkor, ceyerkSayisi) {
 
   return macStringArray;
 }
-console.log(skorTabelasi(periyotSkoru, takimSkoru, 4));
+//console.log(skorTabelasi(periyotSkoru, takimSkoru, 4));
 
 
 
@@ -209,3 +209,4 @@ module.exports = {
   periyotSkoru,
   skorTabelasi,
 }
+ 
